@@ -5,17 +5,17 @@
   
   <title>HMM学习笔记 | 张晋玮个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5) 混淆矩阵: 包含了">
+  <meta name="description" content="简介隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5) 混淆矩阵: 包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HMM学习笔记">
 <meta property="og:url" content="http://yoursite.com/2017/11/13/HMM学习笔记/index.html">
 <meta property="og:site_name" content="张晋玮个人博客">
-<meta property="og:description" content="隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5) 混淆矩阵: 包含了">
+<meta property="og:description" content="简介隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5) 混淆矩阵: 包">
 <meta property="og:image" content="http://yoursite.com/1.png">
-<meta property="og:updated_time" content="2017-11-13T13:54:16.626Z">
+<meta property="og:updated_time" content="2017-11-13T13:57:39.848Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM学习笔记">
-<meta name="twitter:description" content="隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5) 混淆矩阵: 包含了">
+<meta name="twitter:description" content="简介隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5) 混淆矩阵: 包">
 <meta name="twitter:image" content="http://yoursite.com/1.png">
   
     <link rel="alternate" href="/atom.xml" title="张晋玮个人博客" type="application/atom+xml">
@@ -96,17 +96,20 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ol>
-<li>隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：<br><br>&emsp;&emsp;(1) 隐藏状态: 隐藏在观察状态后的状态<br><br>&emsp;&emsp;(2) 观察状态: 表象看到的状态<br><br>&emsp;&emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率<br><br>&emsp;&emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率<br><br>&emsp;&emsp;(5) 混淆矩阵: 包含了隐马尔克夫模型的某一个隐藏状态观察到某个观察状态的概率。<br></li>
+<li>简介<br><br>隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：<br><br>&emsp;&emsp;(1) 隐藏状态: 隐藏在观察状态后的状态<br><br>&emsp;&emsp;(2) 观察状态: 表象看到的状态<br><br>&emsp;&emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率<br><br>&emsp;&emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率<br><br>&emsp;&emsp;(5) 混淆矩阵: 包含了隐马尔克夫模型的某一个隐藏状态观察到某个观察状态的概率。<br></li>
 </ol>
 <p>&emsp;&emsp;● HMM有一个最重要也是非常不符合实际的假设：以上各种概率不随时间的迁移而改变.<br><br>&emsp;&emsp;● 因此一个HMM是在一个马尔克夫过程中引入一组隐藏状态以及与其相关的观察状态的概率关系。</p>
 <ol>
-<li>定义:<br><br>&emsp;&emsp;一个HMM是一个三元组(p1, A, B)。<br><br>&emsp;&emsp;<img src="1.png" alt=""><br>&emsp;&emsp;</li>
+<li><p>定义<br><br>一个HMM是一个三元组(p1, A, B)。<br><br><img src="1.png" alt=""></p>
+</li>
+<li><p>应用</p>
+</li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cj9y9369m0000pedh8wchyz39" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cj9y97a8s0000xndh7kiooe3o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
