@@ -5,17 +5,17 @@
   
   <title>HMM学习笔记 | 张晋玮个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. 简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5)">
+  <meta name="description" content="##1. 简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HMM学习笔记">
 <meta property="og:url" content="http://yoursite.com/2017/11/13/HMM学习笔记/index.html">
 <meta property="og:site_name" content="张晋玮个人博客">
-<meta property="og:description" content="1. 简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5)">
+<meta property="og:description" content="##1. 简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(">
 <meta property="og:image" content="http://yoursite.com/1.png">
-<meta property="og:updated_time" content="2017-11-16T06:30:35.212Z">
+<meta property="og:updated_time" content="2017-11-16T06:33:01.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM学习笔记">
-<meta name="twitter:description" content="1. 简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5)">
+<meta name="twitter:description" content="##1. 简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(">
 <meta name="twitter:image" content="http://yoursite.com/1.png">
   
     <link rel="alternate" href="/atom.xml" title="张晋玮个人博客" type="application/atom+xml">
@@ -95,15 +95,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p></p><h4>1. 简介</h4><br>&emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：<br><br>&emsp;&emsp;(1) 隐藏状态: 隐藏在观察状态后的状态<br><br>&emsp;&emsp;(2) 观察状态: 表象看到的状态<br><br>&emsp;&emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率<br><br>&emsp;&emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率<br><br>&emsp;&emsp;(5) 混淆矩阵: 包含了隐马尔克夫模型的某一个隐藏状态观察到某个观察状态的概率。<br><p></p>
+        <p>##1. 简介<br>&emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：<br><br>&emsp;&emsp;(1) 隐藏状态: 隐藏在观察状态后的状态<br><br>&emsp;&emsp;(2) 观察状态: 表象看到的状态<br><br>&emsp;&emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率<br><br>&emsp;&emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率<br><br>&emsp;&emsp;(5) 混淆矩阵: 包含了隐马尔克夫模型的某一个隐藏状态观察到某个观察状态的概率。<br></p>
 <p>&emsp;&emsp;● HMM有一个最重要也是非常不符合实际的假设：以上各种概率不随时间的迁移而改变.<br><br>&emsp;&emsp;● 因此一个HMM是在一个马尔克夫过程中引入一组隐藏状态以及与其相关的观察状态的概率关系。</p>
-<p></p><h4>2. 定义</h4><br>&emsp;一个HMM是一个三元组(pi, A, B)。<br><br>&emsp;<img src="1.png" alt=""><br>&emsp;&emsp;其中x<sub>i<sub>j</sub></sub>表示j时刻的隐藏状态为x<sub>i</sub>, i ∈ {1…n}, n为隐藏状态的书目。<br><br>&emsp;&emsp;<em>Pr</em>(y<sub>i</sub> | x<sub>j</sub>)表示在隐藏状态x<sub>j</sub>下观察到观察状态y<sub>i</sub>的概率。<br><p></p>
-<p></p><h4>3. 应用</h4><br>&emsp;一旦一个系统可以作为HMM来描述，就可以解决三个基本问题：<br><br>&emsp;<strong> (1) 评估 </strong> <br><br>&emsp;&emsp;这种情况知道(pi, A, B)的HMM模型，对于给定的观察状态序列，计算最有可能产生该序列的HMM。<p></p>
+<p>##2. 定义<br>&emsp;一个HMM是一个三元组(pi, A, B)。<br><br>&emsp;<img src="1.png" alt=""><br>&emsp;&emsp;其中x<sub>i<sub>j</sub></sub>表示j时刻的隐藏状态为x<sub>i</sub>, i ∈ {1…n}, n为隐藏状态的书目。<br><br>&emsp;&emsp;<em>Pr</em>(y<sub>i</sub> | x<sub>j</sub>)表示在隐藏状态x<sub>j</sub>下观察到观察状态y<sub>i</sub>的概率。<br></p>
+<p>##3. 应用<br>&emsp;一旦一个系统可以作为HMM来描述，就可以解决三个基本问题：<br><br>&emsp;<strong> (1) 评估 </strong> <br><br>&emsp;&emsp;这种情况知道(pi, A, B)的HMM模型，对于给定的观察状态序列，计算最有可能产生该序列的HMM。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cja23k23c0000xpdh1vue64t7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cja23n4zg00005idhwbfp2v31" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
