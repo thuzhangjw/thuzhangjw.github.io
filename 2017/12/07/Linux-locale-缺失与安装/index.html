@@ -3,26 +3,24 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>HMM学习笔记 | 张晋玮个人博客</title>
+  <title>Linux locale 缺失与安装 | 张晋玮个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5)">
+  <meta name="description" content="1.一般情况&amp;emsp;查看当前locale设置：1&amp;amp;emsp;&amp;amp;emsp;locale
+&amp;emsp;查看系统目前可用的locale配置：1&amp;amp;emsp;&amp;amp;emsp;locale -a
+&amp;emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。1&amp;amp;emsp;&amp;amp;emsp;locale-gen zh_CN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HMM学习笔记">
-<meta property="og:url" content="http://yoursite.com/2017/11/13/HMM学习笔记/index.html">
+<meta property="og:title" content="Linux locale 缺失与安装">
+<meta property="og:url" content="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/index.html">
 <meta property="og:site_name" content="张晋玮个人博客">
-<meta property="og:description" content="1.简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5)">
-<meta property="og:image" content="http://yoursite.com/1.png">
-<meta property="og:image" content="http://yoursite.com/2.png">
-<meta property="og:image" content="http://yoursite.com/3.png">
-<meta property="og:image" content="http://yoursite.com/4.png">
-<meta property="og:image" content="http://yoursite.com/5.png">
-<meta property="og:image" content="http://yoursite.com/6.png">
-<meta property="og:image" content="http://yoursite.com/7.png">
-<meta property="og:updated_time" content="2017-11-16T08:36:57.750Z">
+<meta property="og:description" content="1.一般情况&amp;emsp;查看当前locale设置：1&amp;amp;emsp;&amp;amp;emsp;locale
+&amp;emsp;查看系统目前可用的locale配置：1&amp;amp;emsp;&amp;amp;emsp;locale -a
+&amp;emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。1&amp;amp;emsp;&amp;amp;emsp;locale-gen zh_CN">
+<meta property="og:updated_time" content="2017-12-07T06:27:24.834Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HMM学习笔记">
-<meta name="twitter:description" content="1.简介&amp;emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：&amp;emsp;&amp;emsp;(1) 隐藏状态: 隐藏在观察状态后的状态&amp;emsp;&amp;emsp;(2) 观察状态: 表象看到的状态&amp;emsp;&amp;emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率&amp;emsp;&amp;emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率&amp;emsp;&amp;emsp;(5)">
-<meta name="twitter:image" content="http://yoursite.com/1.png">
+<meta name="twitter:title" content="Linux locale 缺失与安装">
+<meta name="twitter:description" content="1.一般情况&amp;emsp;查看当前locale设置：1&amp;amp;emsp;&amp;amp;emsp;locale
+&amp;emsp;查看系统目前可用的locale配置：1&amp;amp;emsp;&amp;amp;emsp;locale -a
+&amp;emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。1&amp;amp;emsp;&amp;amp;emsp;locale-gen zh_CN">
   
     <link rel="alternate" href="/atom.xml" title="张晋玮个人博客" type="application/atom+xml">
   
@@ -75,14 +73,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-HMM学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Linux-locale-缺失与安装" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/11/13/HMM学习笔记/" class="article-date">
-  <time datetime="2017-11-13T13:49:35.000Z" itemprop="datePublished">2017-11-13</time>
+    <a href="/2017/12/07/Linux-locale-缺失与安装/" class="article-date">
+  <time datetime="2017-12-07T05:32:55.000Z" itemprop="datePublished">2017-12-07</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/模型学习笔记/">模型学习笔记</a>
+    <a class="article-category-link" href="/categories/Linux-操作系统小知识/">Linux 操作系统小知识</a>
   </div>
 
   </div>
@@ -93,7 +91,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HMM学习笔记
+      Linux locale 缺失与安装
     </h1>
   
 
@@ -101,20 +99,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h2><p>&emsp;隐马尔克夫模型可以用两组状态集合和三组概率集合来描述：<br><br>&emsp;&emsp;(1) 隐藏状态: 隐藏在观察状态后的状态<br><br>&emsp;&emsp;(2) 观察状态: 表象看到的状态<br><br>&emsp;&emsp;(3) 初始概率集合: 包含了隐状态在t=1时刻的初始选择概率<br><br>&emsp;&emsp;(4) 状态转移矩阵: 包含了隐藏状态到另一个隐藏状态的概率<br><br>&emsp;&emsp;(5) 混淆矩阵: 包含了隐马尔克夫模型的某一个隐藏状态观察到某个观察状态的概率。<br></p>
-<p>&emsp;&emsp;● HMM有一个最重要也是非常不符合实际的假设：以上各种概率不随时间的迁移而改变。<br><br>&emsp;&emsp;● 因此一个HMM是在一个马尔克夫过程中引入一组隐藏状态以及与其相关的观察状态的概率关系。<br></p>
-<h2 id="2-定义"><a href="#2-定义" class="headerlink" title="2.定义"></a>2.定义</h2><p>&emsp;一个HMM是一个三元组(pi, A, B)。<br><br>&emsp;<img src="1.png" alt=""><br>&emsp;&emsp;其中x<sub>i<sub>j</sub></sub>表示j时刻的隐藏状态为x<sub>i</sub>, i ∈ {1…n}, n为隐藏状态的书目。<br><br>&emsp;&emsp;<em>Pr</em>(y<sub>i</sub> | x<sub>j</sub>)表示在隐藏状态x<sub>j</sub>下观察到观察状态y<sub>i</sub>的概率。<br></p>
-<h2 id="3-应用"><a href="#3-应用" class="headerlink" title="3.应用"></a>3.应用</h2><p>&emsp;一旦一个系统可以作为HMM来描述，就可以解决三个基本问题：<br><br>&emsp;<strong> (1) 评估 </strong> <br><br>&emsp;&emsp;<strong> 问题描述: </strong> 这种情况知道一些(pi, A, B)的HMM模型，对于给定的观察状态序列，计算最有可能产生该序列的HMM。即计算HMM产生观察序列的概率。<br><br>&emsp;&emsp;<strong> 解决方法: </strong> 前向算法(forward algorithm)<br><br>&emsp;&emsp;<strong> 算法描述: </strong><br>&emsp;<img src="2.png" alt=""></p>
-<p>&emsp;<strong> (2) 解码 </strong> <br><br>&emsp;&emsp;<strong> 问题描述: </strong> 这种情况知道观察序列以及对应的HMM模型，计算与观察序列对应的最有可能的隐藏序列。<br><br>&emsp;&emsp;<strong> 解决方法: </strong> Viterbi算法<br><br>&emsp;&emsp;<strong> 算法描述: </strong><br>&emsp;<img src="3.png" alt=""></p>
-<p>&emsp;<strong> (3) 学习 </strong> <br><br>&emsp;&emsp;<strong> 问题描述: </strong> 根据一个观察序列（来自于已知的集合），以及与其有关的一个隐藏状态集，估计一个最合适的隐马尔科夫模型（HMM），也就是确定对已知序列描述的最合适的（pi,A,B）三元组。<br><br>&emsp;&emsp;<strong> 解决方法: </strong> 前向-后向算法<br><br>&emsp;&emsp;<strong> 算法描述: </strong> <br><br>&emsp;&emsp;&emsp; <strong> a.后向算法 </strong><br>&emsp;<img src="4.png" alt=""><br>&emsp;&emsp;&emsp; <strong> b.前向后向算法 </strong><br>&emsp;<img src="5.png" alt=""><br>&emsp;<img src="6.png" alt=""><br>&emsp;<img src="7.png" alt=""></p>
+        <h2 id="1-一般情况"><a href="#1-一般情况" class="headerlink" title="1.一般情况"></a>1.一般情况</h2><p>&emsp;<strong>查看当前locale设置：</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale</div></pre></td></tr></table></figure></p>
+<p>&emsp;<strong>查看系统目前可用的locale配置：</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale -a</div></pre></td></tr></table></figure></p>
+<p>&emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale-gen zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
+<p>&emsp; 上述命令会安装 zh_CN.UTF-8。<br></p>
+<p>&emsp;<strong>修改当前locale配置：</strong> <br></p>
+<p>&emsp;&emsp;可以直接编辑/etc/default/locale文件，也可以使用如下命令来修改该文件:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;update-locale LANG=zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
+<h2 id="2-遇到的问题"><a href="#2-遇到的问题" class="headerlink" title="2.遇到的问题"></a>2.遇到的问题</h2><p>&emsp;en_US.UTF-8… cannot open locale definition file ‘translit_neutral’: No such file or directory<br>failed<br></p>
+<p>&emsp;<strong>解决：</strong><br></p>
+<p>&emsp;&emsp;从别的机器上copy /usr/share/i18n 覆盖本机。</p>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>&emsp;&emsp;<strong>1.</strong> 全新字符库编码信息位于 /usr/share/i18n目录下面，其中SUPPORTED中包含可用的所用字符集。其中的charmaps存的每种字符集的映射信息。使用localedef可以生成字符集，就是locales里面那些东西。但这些并不是系统中能用的字符集。刚才描述的这些/usr/share/i18n里面的文件只能算是可用的字符集，locale -m可以看到列表。<br><br>&emsp;&emsp;<strong>2.</strong> 为了让系统能使用，原始的/usr/share/i18n中的文件要经过处理（complile），能用的字符编码在/usr/lib/locale/下面，成为complied字符集。<br><br>&emsp;&emsp;<strong>3.</strong> 使用locale-gen可以把原始的/usr/share/i18n中的文件complie成系统能用的/usr/lib/locale/地字符集。所以当使用locale-gen 命令出现由某些文件确实而失败的情况，往往是由/usr/share/i18n下缺少相应文件导致的。<br><br>&emsp;&emsp;<strong>4.</strong> /usr/share/i18n里面的东西操作系统无关，不同体系结构不同系统可以通用，若有缺失，从其他地方复制来便可。<br><br>&emsp;&emsp;<font size="1">reference: <a href="http://blog.csdn.net/yunhuang2010/article/details/8109578" target="_blank" rel="external">http://blog.csdn.net/yunhuang2010/article/details/8109578</a></font></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cjaw3paa60000x1dhrpo34x69" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjaw3paa90001x1dhjjlxorsi" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/locale/">locale</a></li></ul>
 
     </footer>
   </div>
@@ -122,19 +124,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/12/07/Linux-locale-缺失与安装/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Linux locale 缺失与安装
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/18/proc-cpuinfo文本分析/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/11/13/HMM学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">/proc/cpuinfo文本分析</div>
+      <div class="article-nav-title">HMM学习笔记</div>
     </a>
   
 </nav>

@@ -65,6 +65,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Linux-locale-缺失与安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/07/Linux-locale-缺失与安装/" class="article-date">
+  <time datetime="2017-12-07T05:32:55.000Z" itemprop="datePublished">2017-12-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux-操作系统小知识/">Linux 操作系统小知识</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/07/Linux-locale-缺失与安装/">Linux locale 缺失与安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-一般情况"><a href="#1-一般情况" class="headerlink" title="1.一般情况"></a>1.一般情况</h2><p>&emsp;<strong>查看当前locale设置：</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale</div></pre></td></tr></table></figure></p>
+<p>&emsp;<strong>查看系统目前可用的locale配置：</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale -a</div></pre></td></tr></table></figure></p>
+<p>&emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale-gen zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
+<p>&emsp; 上述命令会安装 zh_CN.UTF-8。<br></p>
+<p>&emsp;<strong>修改当前locale配置：</strong> <br></p>
+<p>&emsp;&emsp;可以直接编辑/etc/default/locale文件，也可以使用如下命令来修改该文件:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;update-locale LANG=zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
+<h2 id="2-遇到的问题"><a href="#2-遇到的问题" class="headerlink" title="2.遇到的问题"></a>2.遇到的问题</h2><p>&emsp;en_US.UTF-8… cannot open locale definition file ‘translit_neutral’: No such file or directory<br>failed<br></p>
+<p>&emsp;<strong>解决：</strong><br></p>
+<p>&emsp;&emsp;从别的机器上copy /usr/share/i18n 覆盖本机。</p>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>&emsp;&emsp;<strong>1.</strong> 全新字符库编码信息位于 /usr/share/i18n目录下面，其中SUPPORTED中包含可用的所用字符集。其中的charmaps存的每种字符集的映射信息。使用localedef可以生成字符集，就是locales里面那些东西。但这些并不是系统中能用的字符集。刚才描述的这些/usr/share/i18n里面的文件只能算是可用的字符集，locale -m可以看到列表。<br><br>&emsp;&emsp;<strong>2.</strong> 为了让系统能使用，原始的/usr/share/i18n中的文件要经过处理（complile），能用的字符编码在/usr/lib/locale/下面，成为complied字符集。<br><br>&emsp;&emsp;<strong>3.</strong> 使用locale-gen可以把原始的/usr/share/i18n中的文件complie成系统能用的/usr/lib/locale/地字符集。所以当使用locale-gen 命令出现由某些文件确实而失败的情况，往往是由/usr/share/i18n下缺少相应文件导致的。<br><br>&emsp;&emsp;<strong>4.</strong> /usr/share/i18n里面的东西操作系统无关，不同体系结构不同系统可以通用，若有缺失，从其他地方复制来便可。<br><br>&emsp;&emsp;<font size="1">reference: <a href="http://blog.csdn.net/yunhuang2010/article/details/8109578" target="_blank" rel="external">http://blog.csdn.net/yunhuang2010/article/details/8109578</a></font></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjaw3paa90001x1dhjjlxorsi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/locale/">locale</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-HMM学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/11/13/HMM学习笔记/" class="article-date">
@@ -101,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cja282ijw0000fldh0ksw7g2z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cjaw3paa60000x1dhrpo34x69" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
@@ -144,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/18/proc-cpuinfo文本分析/" data-id="cja282iki000efldhnni8c4iv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/18/proc-cpuinfo文本分析/" data-id="cjaw3paal0005x1dh4gbpj8df" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li></ul>
@@ -190,7 +242,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/15/OpenStack-虚拟机状态卡死之处理方法/" data-id="cja282ijz0001fldh9nx05g8h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/15/OpenStack-虚拟机状态卡死之处理方法/" data-id="cjaw3paaf0004x1dhudnpsxrg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nova/">nova</a></li></ul>
@@ -211,7 +263,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux操作系统小知识/">Linux操作系统小知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenStack实践笔记/">OpenStack实践笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/模型学习笔记/">模型学习笔记</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-操作系统小知识/">Linux 操作系统小知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux操作系统小知识/">Linux操作系统小知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenStack实践笔记/">OpenStack实践笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/模型学习笔记/">模型学习笔记</a></li></ul>
     </div>
   </div>
 
@@ -221,7 +273,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nova/">nova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/locale/">locale</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nova/">nova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
   </div>
 
@@ -231,7 +283,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/OpenStack/" style="font-size: 10px;">OpenStack</a> <a href="/tags/cpuinfo/" style="font-size: 10px;">cpuinfo</a> <a href="/tags/nova/" style="font-size: 10px;">nova</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/OpenStack/" style="font-size: 10px;">OpenStack</a> <a href="/tags/cpuinfo/" style="font-size: 10px;">cpuinfo</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/locale/" style="font-size: 10px;">locale</a> <a href="/tags/nova/" style="font-size: 10px;">nova</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -240,7 +292,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
     </div>
   </div>
 
@@ -251,6 +303,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/12/07/Linux-locale-缺失与安装/">Linux locale 缺失与安装</a>
+          </li>
         
           <li>
             <a href="/2017/11/13/HMM学习笔记/">HMM学习笔记</a>
