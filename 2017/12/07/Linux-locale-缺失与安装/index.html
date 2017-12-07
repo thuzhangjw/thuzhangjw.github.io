@@ -15,7 +15,7 @@
 <meta property="og:description" content="1.一般情况&amp;emsp;查看当前locale设置：1&amp;amp;emsp;&amp;amp;emsp;locale
 &amp;emsp;查看系统目前可用的locale配置：1&amp;amp;emsp;&amp;amp;emsp;locale -a
 &amp;emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。1&amp;amp;emsp;&amp;amp;emsp;locale-gen zh_CN">
-<meta property="og:updated_time" content="2017-12-07T06:30:03.240Z">
+<meta property="og:updated_time" content="2017-12-07T06:32:50.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux locale 缺失与安装">
 <meta name="twitter:description" content="1.一般情况&amp;emsp;查看当前locale设置：1&amp;amp;emsp;&amp;amp;emsp;locale
@@ -99,21 +99,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-一般情况"><a href="#1-一般情况" class="headerlink" title="1.一般情况"></a>1.一般情况</h2><p>&emsp;<strong>查看当前locale设置：</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale</div></pre></td></tr></table></figure></p>
-<p>&emsp;<strong>查看系统目前可用的locale配置：</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale -a</div></pre></td></tr></table></figure></p>
-<p>&emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale-gen zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
+        <h2 id="1-一般情况"><a href="#1-一般情况" class="headerlink" title="1.一般情况"></a>1.一般情况</h2><p>&emsp;<strong>查看当前locale设置：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale</div></pre></td></tr></table></figure></p>
+<p>&emsp;<strong>查看系统目前可用的locale配置：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale -a</div></pre></td></tr></table></figure></p>
+<p>&emsp; 如果某种locale不在上述列表中出现，可以使用locale-gen命令来安装该种locale。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;locale-gen zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
 <p>&emsp; 上述命令会安装 zh_CN.UTF-8。<br></p>
 <p>&emsp;<strong>修改当前locale配置：</strong> <br></p>
-<p>&emsp;&emsp;可以直接编辑/etc/default/locale文件，也可以使用如下命令来修改该文件:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;update-locale LANG=zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
-<h2 id="2-遇到的问题"><a href="#2-遇到的问题" class="headerlink" title="2.遇到的问题"></a>2.遇到的问题</h2><p>&emsp;en_US.UTF-8… cannot open locale definition file ‘translit_neutral’: No such file or directory<br>failed<br></p>
-<p>&emsp;<strong>解决：</strong><br></p>
-<p>&emsp;&emsp;从别的机器上copy /usr/share/i18n 覆盖本机。</p>
+<p>&emsp;&emsp;可以直接编辑/etc/default/locale文件，也可以使用如下命令来修改该文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;update-locale LANG=zh_CN.UTF-8</div></pre></td></tr></table></figure></p>
+<h2 id="2-遇到的问题"><a href="#2-遇到的问题" class="headerlink" title="2.遇到的问题"></a>2.遇到的问题</h2><p>&emsp;en_US.UTF-8… cannot open locale definition file ‘translit_neutral’: No such file or directory failed<br><br>&emsp;<strong>解决：</strong><br><br>&emsp;&emsp;从别的机器上copy /usr/share/i18n 覆盖本机。</p>
 <h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>&emsp;&emsp;<strong>1.</strong> 全新字符库编码信息位于 /usr/share/i18n目录下面，其中SUPPORTED中包含可用的所用字符集。其中的charmaps存的每种字符集的映射信息。使用localedef可以生成字符集，就是locales里面那些东西。但这些并不是系统中能用的字符集。刚才描述的这些/usr/share/i18n里面的文件只能算是可用的字符集，locale -m可以看到列表。<br><br>&emsp;&emsp;<strong>2.</strong> 为了让系统能使用，原始的/usr/share/i18n中的文件要经过处理（complile），能用的字符编码在/usr/lib/locale/下面，成为complied字符集。<br><br>&emsp;&emsp;<strong>3.</strong> 使用locale-gen可以把原始的/usr/share/i18n中的文件complie成系统能用的/usr/lib/locale/地字符集。所以当使用locale-gen 命令出现由某些文件确实而失败的情况，往往是由/usr/share/i18n下缺少相应文件导致的。<br><br>&emsp;&emsp;<strong>4.</strong> /usr/share/i18n里面的东西操作系统无关，不同体系结构不同系统可以通用，若有缺失，从其他地方复制来便可。<br><br>&emsp;&emsp;<font size="1">reference: <a href="http://blog.csdn.net/yunhuang2010/article/details/8109578" target="_blank" rel="external">http://blog.csdn.net/yunhuang2010/article/details/8109578</a></font></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjaw3s6jh00016ldhn2oh80jy" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjaw3wvug0001i1dhyzwjln4v" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/locale/">locale</a></li></ul>
