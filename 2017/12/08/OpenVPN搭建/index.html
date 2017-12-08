@@ -13,7 +13,7 @@ Step 1: 安装&amp;emsp;&amp;emsp;安装open">
 <meta property="og:site_name" content="张晋玮个人博客">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;注：1. 本次搭建环境为archlinux arm平台， 但是通过本人多次实践以及对不同平台的了解，基本操作和原理完全相同。&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; 2.OpenVPN 需要内核模块tun支持。使用命令 modprobe tun 检测是否有此模块，若无可能需要重新便宜linux kernel.
 Step 1: 安装&amp;emsp;&amp;emsp;安装open">
-<meta property="og:updated_time" content="2017-12-08T11:13:42.226Z">
+<meta property="og:updated_time" content="2017-12-08T11:16:48.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenVPN搭建">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;注：1. 本次搭建环境为archlinux arm平台， 但是通过本人多次实践以及对不同平台的了解，基本操作和原理完全相同。&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; 2.OpenVPN 需要内核模块tun支持。使用命令 modprobe tun 检测是否有此模块，若无可能需要重新便宜linux kernel.
@@ -97,64 +97,16 @@ Step 1: 安装&amp;emsp;&amp;emsp;安装open">
     <div class="article-entry" itemprop="articleBody">
       
         <p>&emsp;&emsp;<font size="4" color="red">注：</font>1. 本次搭建环境为archlinux arm平台， 但是通过本人多次实践以及对不同平台的了解，基本操作和原理完全相同。<br><br>&emsp;&emsp;&emsp;&emsp; 2.OpenVPN 需要内核模块tun支持。使用命令 modprobe tun 检测是否有此模块，若无可能需要重新便宜linux kernel.</p>
-<p><strong>Step 1: 安装</strong><br><br>&emsp;&emsp;安装openvpn和easy-rsa。 <figure class="highlight plain"><figcaption><span>-S openvpn easy-rsa```<br></span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">**Step 2:证书生成**</div></pre></td></tr></table></figure></p>
-<pre><code>cp -r /etc/easy-rsa ~/easy-rsa     //将easyrsa配置拷贝到home目录
-cd ~/easy-rsa
-easy-rsa init-pki                  //初始化pki(Public Key Infrastructure)环境
-easy-rsa build-ca nopass           //生成根证书，即将自己作为CA，此处nopass选择不加密生成的密钥
-//正常的证书签发流程是：生成客户私钥以及向CA发起证书签发申请，然后由CA签发证书。
-//这里我们省略了gen-req和sign-req,使用一条命令生成证书。以上只是说明其内部实际是两个过程。
-easy-rsa build-server-full server nopass   //生成server端证书
-easy-rsa build-client-full client nopass   //生成client端证书
-easy-rsa gen-dh                   //生成Diffie-Hellman密钥交换协议的参数
-openvpn --genkey --secret pki/ta.key  //生成“HMAC firewall”,防止DoS攻击和UDP port flooding
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;至此，便生成了说需要的所有证书和密钥。&lt;/br&gt;</div><div class="line">**Step 3: server conf配置**</div></pre></td></tr></table></figure>
-<pre><code>sudo cp pki/ca.crt pki/issued/server.crt pki/ta.key pki/dh.pem pki/private/server.key /etc/openvpn/server/
-sudo cp /usr/share/openvpn/examples/server.conf /etc/openvpn/server
-sudo vim /etc/openvpn/server
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;以下为我的配置，可作为参考：</div></pre></td></tr></table></figure>
-<pre><code>port 1194
-proto udp6  #使用ipv6， 否则使用proto udp
-dev tun0
-ca ca.crt
-cert server.crt
-key server.key 
-dh dh.pem
-server 10.10.0.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
-push &quot;redirect-gateway def1 bypass-dhcp&quot;
-push &quot;dhcp-option DNS 114.114.114.114&quot;
-push &quot;dhcp-option DNS 8.8.8.8&quot;
-duplicate-cn #如果每个client使用相同的证书，必须开启此项
-keepalive 10 120
-tls-auth ta.key 0
-cipher AES-256-CBC
-comp-lzo
-max-clients 20
-user nobody
-group nobody
-persist-key
-persist-tun
-status openvpn-status.log
-log openvpn.log
-verb 3
-mute 20
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">**Step 4: 测试**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;到目前为止，server基本配置完毕。临时启动server进行测试。</div></pre></td></tr></table></figure>
-<pre><code>sudo su
-cd /etc/openvpn/server
-openvpn --config /etc/openvpn/server/server.conf
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;然后查看是否有tun0网卡，以及网卡信息与配置是否一致。</div></pre></td></tr></table></figure>
-<pre><code>ifconfig
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">**Step 5: 通过VPN上网**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;现在我们的openvpn server已经可以接受client连入了，但是client还不能上网。所以需要将openvpn子网的连接转发到可上网的网卡，如eth0.</div></pre></td></tr></table></figure>
-<pre><code>sudo vim /etc/sysctl.d/99-sysctl.conf  #我使用的archlinux已经没有/etc/sysctl.conf了,已经改为了这种结构
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;配置如下：</div></pre></td></tr></table></figure>
-<pre><code>net.ipv4.ip_forward=1
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;emsp;&amp;emsp;然后就可以用iptable进行转发了。</div></pre></td></tr></table></figure>
-<pre><code>sudo su
-iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE
-iptables-save &gt; /etc/iptables/iptables.rules
-systemctl enable iptables    
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">**Step 6: 开机启动**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;OpenVPN在安装时自带system service，但是使用的是模板语法。在我的平台上，该模板名称为openvpn-server@.service。具体可到/usr/lib/systemd/system目录下查看。该模板使用%i对conf文件进行输入，所以在本平台上创建开机启动项如下(可根据实际情况修改)：</div></pre></td></tr></table></figure>
+<p><strong>Step 1: 安装</strong><br><br>&emsp;&emsp;安装openvpn和easy-rsa。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacman -S openvpn easy-rsa</div></pre></td></tr></table></figure></p>
+<p><strong>Step 2:证书生成</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">cp -r /etc/easy-rsa ~/easy-rsa     //将easyrsa配置拷贝到home目录</div><div class="line">cd ~/easy-rsa</div><div class="line">easy-rsa init-pki                  //初始化pki(Public Key Infrastructure)环境</div><div class="line">easy-rsa build-ca nopass           //生成根证书，即将自己作为CA，此处nopass选择不加密生成的密钥</div><div class="line">//正常的证书签发流程是：生成客户私钥以及向CA发起证书签发申请，然后由CA签发证书。</div><div class="line">//这里我们省略了gen-req和sign-req,使用一条命令生成证书。以上只是说明其内部实际是两个过程。</div><div class="line">easy-rsa build-server-full server nopass   //生成server端证书</div><div class="line">easy-rsa build-client-full client nopass   //生成client端证书</div><div class="line">easy-rsa gen-dh                   //生成Diffie-Hellman密钥交换协议的参数</div><div class="line">openvpn --genkey --secret pki/ta.key  //生成“HMAC firewall”,防止DoS攻击和UDP port flooding</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;至此，便生成了说需要的所有证书和密钥。<br></p>
+<p><strong>Step 3: server conf配置</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo cp pki/ca.crt pki/issued/server.crt pki/ta.key pki/dh.pem pki/private/server.key /etc/openvpn/server/</div><div class="line">sudo cp /usr/share/openvpn/examples/server.conf /etc/openvpn/server</div><div class="line">sudo vim /etc/openvpn/server</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;以下为我的配置，可作为参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">port 1194</div><div class="line">proto udp6  #使用ipv6， 否则使用proto udp</div><div class="line">dev tun0</div><div class="line">ca ca.crt</div><div class="line">cert server.crt</div><div class="line">key server.key </div><div class="line">dh dh.pem</div><div class="line">server 10.10.0.0 255.255.255.0</div><div class="line">ifconfig-pool-persist ipp.txt</div><div class="line">push &quot;redirect-gateway def1 bypass-dhcp&quot;</div><div class="line">push &quot;dhcp-option DNS 114.114.114.114&quot;</div><div class="line">push &quot;dhcp-option DNS 8.8.8.8&quot;</div><div class="line">duplicate-cn #如果每个client使用相同的证书，必须开启此项</div><div class="line">keepalive 10 120</div><div class="line">tls-auth ta.key 0</div><div class="line">cipher AES-256-CBC</div><div class="line">comp-lzo</div><div class="line">max-clients 20</div><div class="line">user nobody</div><div class="line">group nobody</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">status openvpn-status.log</div><div class="line">log openvpn.log</div><div class="line">verb 3</div><div class="line">mute 20</div></pre></td></tr></table></figure></p>
+<p><strong>Step 4: 测试</strong><br><br>&emsp;&emsp;到目前为止，server基本配置完毕。临时启动server进行测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line">cd /etc/openvpn/server</div><div class="line">openvpn --config /etc/openvpn/server/server.conf</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;然后查看是否有tun0网卡，以及网卡信息与配置是否一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig</div></pre></td></tr></table></figure></p>
+<p><strong>Step 5: 通过VPN上网</strong><br><br>&emsp;&emsp;现在我们的openvpn server已经可以接受client连入了，但是client还不能上网。所以需要将openvpn子网的连接转发到可上网的网卡，如eth0.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/sysctl.d/99-sysctl.conf  #我使用的archlinux已经没有/etc/sysctl.conf了,已经改为了这种结构</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">net.ipv4.ip_forward=1</div></pre></td></tr></table></figure></p>
+<p> &emsp;&emsp;然后就可以用iptable进行转发了。<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">    sudo su</div><div class="line">    iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE</div><div class="line">    iptables-save &gt; /etc/iptables/iptables.rules</div><div class="line">    systemctl enable iptables    </div><div class="line"> ``` </div><div class="line">**Step 6: 开机启动**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;OpenVPN在安装时自带system service，但是使用的是模板语法。在我的平台上，该模板名称为openvpn-server@.service。具体可到/usr/lib/systemd/system目录下查看。该模板使用%i对conf文件进行输入，所以在本平台上创建开机启动项如下(可根据实际情况修改)：</div></pre></td></tr></table></figure></p>
 <pre><code>sudo systemctl enable openvpn-server@server.service
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">**Step 7: Client配置**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;我的client配置采用windows上openvpn目录下sample-config中的client.ovpn作为模板，下面是我的配置，可作为参考，根据自身情况修改。</div></pre></td></tr></table></figure>
 <pre><code>client
@@ -185,7 +137,7 @@ auth-nocache
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjaxtd3ig0004jodhtzfoscv1" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjaxtgt830005tgdhzww2u34h" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openvpn/">openvpn</a></li></ul>
