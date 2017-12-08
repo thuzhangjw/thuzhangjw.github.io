@@ -13,7 +13,7 @@ Step 1: 安装&amp;emsp;&amp;emsp;安装open">
 <meta property="og:site_name" content="张晋玮个人博客">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;注：1. 本次搭建环境为archlinux arm平台， 但是通过本人多次实践以及对不同平台的了解，基本操作和原理完全相同。&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; 2.OpenVPN 需要内核模块tun支持。使用命令 modprobe tun 检测是否有此模块，若无可能需要重新便宜linux kernel.
 Step 1: 安装&amp;emsp;&amp;emsp;安装open">
-<meta property="og:updated_time" content="2017-12-08T11:21:50.236Z">
+<meta property="og:updated_time" content="2017-12-08T11:26:27.893Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenVPN搭建">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;注：1. 本次搭建环境为archlinux arm平台， 但是通过本人多次实践以及对不同平台的了解，基本操作和原理完全相同。&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; 2.OpenVPN 需要内核模块tun支持。使用命令 modprobe tun 检测是否有此模块，若无可能需要重新便宜linux kernel.
@@ -106,38 +106,15 @@ Step 1: 安装&amp;emsp;&amp;emsp;安装open">
 <p>&emsp;&emsp;然后查看是否有tun0网卡，以及网卡信息与配置是否一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig</div></pre></td></tr></table></figure></p>
 <p><strong>Step 5: 通过VPN上网</strong><br><br>&emsp;&emsp;现在我们的openvpn server已经可以接受client连入了，但是client还不能上网。所以需要将openvpn子网的连接转发到可上网的网卡，如eth0.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/sysctl.d/99-sysctl.conf  #我使用的archlinux已经没有/etc/sysctl.conf了,已经改为了这种结构</div></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">net.ipv4.ip_forward=1</div></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;然后就可以用iptable进行转发了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">    sudo su</div><div class="line">    iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE</div><div class="line">    iptables-save &gt; /etc/iptables/iptables.rules</div><div class="line">    systemctl enable iptables    </div><div class="line">``` </div><div class="line"></div><div class="line">**Step 6: 开机启动**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;OpenVPN在安装时自带system service，但是使用的是模板语法。在我的平台上，该模板名称为openvpn-server@.service。具体可到/usr/lib/systemd/system目录下查看。该模板使用%i对conf文件进行输入，所以在本平台上创建开机启动项如下(可根据实际情况修改)：</div></pre></td></tr></table></figure></p>
-<pre><code>sudo systemctl enable openvpn-server@server.service
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">**Step 7: Client配置**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;我的client配置采用windows上openvpn目录下sample-config中的client.ovpn作为模板，下面是我的配置，可作为参考，根据自身情况修改。</div></pre></td></tr></table></figure>
-<pre><code>client
-dev tun
-remote ipv6-address 1194 udp6  #使用ipv6时这样配置，1194是对应server的端口。
-remote ipv4-address 1194 udp   #ipv4配置
-
-##如果只使用ipv4,使用下面格式即可
-#proto udp
-#remote ipv4-address 1194
-
-resolv-retry infinite
-nobind
-persist-key
-persist-tun
-ca ca.crt
-cert client.crt
-key client.key
-remote-cert-tls server
-tls-auth ta.key  #该文件与server端的相同
-cipher AES-256-CBC
-comp-lzo
-verb 3
-mute 20
-auth-nocache
-</code></pre><p>```<br>&emsp;&emsp;在client使用前，需要将之前easy-rsa生成的ca.crt, client.key, client.crt, ta.key拷贝到客户端openvpn config目录下。</p>
+<p>&emsp;&emsp;然后就可以用iptable进行转发了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE</div><div class="line">iptables-save &gt; /etc/iptables/iptables.rules</div><div class="line">systemctl enable iptables</div></pre></td></tr></table></figure></p>
+<p><strong>Step 6: 开机启动</strong><br><br>&emsp;&emsp;OpenVPN在安装时自带system service，但是使用的是模板语法。在我的平台上，该模板名称为openvpn-server@.service。具体可到/usr/lib/systemd/system目录下查看。该模板使用%i对conf文件进行输入，所以在本平台上创建开机启动项如下(可根据实际情况修改)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl enable openvpn-server@server.service</div></pre></td></tr></table></figure></p>
+<p><strong>Step 7: Client配置</strong><br><br>&emsp;&emsp;我的client配置采用windows上openvpn目录下sample-config中的client.ovpn作为模板，下面是我的配置，可作为参考，根据自身情况修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">client</div><div class="line">dev tun</div><div class="line">remote ipv6-address 1194 udp6  #使用ipv6时这样配置，1194是对应server的端口。</div><div class="line">remote ipv4-address 1194 udp   #ipv4配置</div><div class="line"></div><div class="line">##如果只使用ipv4,使用下面格式即可</div><div class="line">#proto udp</div><div class="line">#remote ipv4-address 1194</div><div class="line"></div><div class="line">resolv-retry infinite</div><div class="line">nobind</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">ca ca.crt</div><div class="line">cert client.crt</div><div class="line">key client.key</div><div class="line">remote-cert-tls server</div><div class="line">tls-auth ta.key  #该文件与server端的相同</div><div class="line">cipher AES-256-CBC</div><div class="line">comp-lzo</div><div class="line">verb 3</div><div class="line">mute 20</div><div class="line">auth-nocache</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;在client使用前，需要将之前easy-rsa生成的ca.crt, client.key, client.crt, ta.key拷贝到客户端openvpn config目录下。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjaxtn7z200069idht513tlmk" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjaxtt5dz0005isdh41vtpyow" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openvpn/">openvpn</a></li></ul>
