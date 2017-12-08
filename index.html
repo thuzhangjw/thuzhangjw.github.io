@@ -54,7 +54,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -101,7 +101,7 @@
 <p>&emsp;&emsp;然后查看是否有tun0网卡，以及网卡信息与配置是否一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig</div></pre></td></tr></table></figure></p>
 <p><strong>Step 5: 通过VPN上网</strong><br><br>&emsp;&emsp;现在我们的openvpn server已经可以接受client连入了，但是client还不能上网。所以需要将openvpn子网的连接转发到可上网的网卡，如eth0.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/sysctl.d/99-sysctl.conf  #我使用的archlinux已经没有/etc/sysctl.conf了,已经改为了这种结构</div></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">net.ipv4.ip_forward=1</div></pre></td></tr></table></figure></p>
-<p> &emsp;&emsp;然后就可以用iptable进行转发了。<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">    sudo su</div><div class="line">    iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE</div><div class="line">    iptables-save &gt; /etc/iptables/iptables.rules</div><div class="line">    systemctl enable iptables    </div><div class="line"> ``` </div><div class="line">**Step 6: 开机启动**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;OpenVPN在安装时自带system service，但是使用的是模板语法。在我的平台上，该模板名称为openvpn-server@.service。具体可到/usr/lib/systemd/system目录下查看。该模板使用%i对conf文件进行输入，所以在本平台上创建开机启动项如下(可根据实际情况修改)：</div></pre></td></tr></table></figure></p>
+<p> &emsp;&emsp;然后就可以用iptable进行转发了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">    sudo su</div><div class="line">    iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE</div><div class="line">    iptables-save &gt; /etc/iptables/iptables.rules</div><div class="line">    systemctl enable iptables    </div><div class="line">``` </div><div class="line">**Step 6: 开机启动**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;OpenVPN在安装时自带system service，但是使用的是模板语法。在我的平台上，该模板名称为openvpn-server@.service。具体可到/usr/lib/systemd/system目录下查看。该模板使用%i对conf文件进行输入，所以在本平台上创建开机启动项如下(可根据实际情况修改)：</div></pre></td></tr></table></figure></p>
 <pre><code>sudo systemctl enable openvpn-server@server.service
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">**Step 7: Client配置**&lt;/br&gt;</div><div class="line">&amp;emsp;&amp;emsp;我的client配置采用windows上openvpn目录下sample-config中的client.ovpn作为模板，下面是我的配置，可作为参考，根据自身情况修改。</div></pre></td></tr></table></figure>
 <pre><code>client
@@ -132,7 +132,7 @@ auth-nocache
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjaxtgt830005tgdhzww2u34h" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjaxtjbut00061adhzkscukp0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openvpn/">openvpn</a></li></ul>
@@ -182,7 +182,7 @@ auth-nocache
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjaxtgt7y0004tgdhsroyp57t" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjaxtjbug00011adhs1g1stj2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/locale/">locale</a></li></ul>
@@ -230,7 +230,7 @@ auth-nocache
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cjaxtgt7p0000tgdh9il2r1iq" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cjaxtjbud00001adh9d7stn9i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
@@ -273,7 +273,7 @@ auth-nocache
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/18/proc-cpuinfo文本分析/" data-id="cjaxtgt840006tgdhj6xe88fu" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/09/18/proc-cpuinfo文本分析/" data-id="cjaxtjbul00041adh08dk11am" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li></ul>
@@ -319,7 +319,7 @@ auth-nocache
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/15/OpenStack-虚拟机状态卡死之处理方法/" data-id="cjaxtgt7t0001tgdh7emk9x3b" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/09/15/OpenStack-虚拟机状态卡死之处理方法/" data-id="cjaxtjbus00051adh4egcsq30" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nova/">nova</a></li></ul>
@@ -338,7 +338,7 @@ auth-nocache
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categorieën</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux操作系统小知识/">Linux操作系统小知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenStack实践笔记/">OpenStack实践笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/VPN搭建/">VPN搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/模型学习笔记/">模型学习笔记</a></li></ul>
     </div>
@@ -348,7 +348,7 @@ auth-nocache
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Labels</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/locale/">locale</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nova/">nova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvpn/">openvpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
@@ -367,7 +367,7 @@ auth-nocache
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
     </div>
@@ -377,7 +377,7 @@ auth-nocache
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
