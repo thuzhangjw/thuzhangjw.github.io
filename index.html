@@ -52,9 +52,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -100,7 +100,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/14/shell编程-日常范例积累/" data-id="cjb6b6rro0009wfdhty1eesfh" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/12/14/shell编程-日常范例积累/" data-id="cjji82h2q0009tjdhgvsia1uy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -143,7 +143,7 @@
 <p><strong>Step 2:证书生成</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">cp -r /etc/easy-rsa ~/easy-rsa     //将easyrsa配置拷贝到home目录</div><div class="line">cd ~/easy-rsa</div><div class="line">easy-rsa init-pki                  //初始化pki(Public Key Infrastructure)环境</div><div class="line">easy-rsa build-ca nopass           //生成根证书，即将自己作为CA，此处nopass选择不加密生成的密钥</div><div class="line">//正常的证书签发流程是：生成客户私钥以及向CA发起证书签发申请，然后由CA签发证书。</div><div class="line">//这里我们省略了gen-req和sign-req,使用一条命令生成证书。以上只是说明其内部实际是两个过程。</div><div class="line">easy-rsa build-server-full server nopass   //生成server端证书</div><div class="line">easy-rsa build-client-full client nopass   //生成client端证书</div><div class="line">easy-rsa gen-dh                   //生成Diffie-Hellman密钥交换协议的参数</div><div class="line">openvpn --genkey --secret pki/ta.key  //生成“HMAC firewall”,防止DoS攻击和UDP port flooding</div></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;至此，便生成了说需要的所有证书和密钥。<br></p>
 <p><strong>Step 3: server conf配置</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo cp pki/ca.crt pki/issued/server.crt pki/ta.key pki/dh.pem pki/private/server.key /etc/openvpn/server/</div><div class="line">sudo cp /usr/share/openvpn/examples/server.conf /etc/openvpn/server</div><div class="line">sudo vim /etc/openvpn/server</div></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;以下为我的配置，可作为参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">port 1194</div><div class="line">proto udp6  #使用ipv6， 否则使用proto udp</div><div class="line">dev tun0</div><div class="line">ca ca.crt</div><div class="line">cert server.crt</div><div class="line">key server.key </div><div class="line">dh dh.pem</div><div class="line">server 10.10.0.0 255.255.255.0</div><div class="line">ifconfig-pool-persist ipp.txt</div><div class="line">push &quot;redirect-gateway def1 bypass-dhcp&quot;</div><div class="line">push &quot;dhcp-option DNS 114.114.114.114&quot;</div><div class="line">push &quot;dhcp-option DNS 8.8.8.8&quot;</div><div class="line">duplicate-cn #如果每个client使用相同的证书，必须开启此项</div><div class="line">keepalive 10 120</div><div class="line">tls-auth ta.key 0</div><div class="line">cipher AES-256-CBC</div><div class="line">comp-lzo</div><div class="line">max-clients 20</div><div class="line">user nobody</div><div class="line">group nobody</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">status openvpn-status.log</div><div class="line">log openvpn.log</div><div class="line">verb 3</div><div class="line">mute 20</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;以下为我的配置，可作为参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">port 1194</div><div class="line">proto udp6  #使用ipv6， 否则使用proto udp</div><div class="line">dev tun0</div><div class="line">ca ca.crt</div><div class="line">cert server.crt</div><div class="line">key server.key </div><div class="line">dh dh.pem</div><div class="line">server 10.10.0.0 255.255.255.0</div><div class="line">server-ipv6 fd00:c0a8:ed00::/64 # if you want use ipv6, use this config</div><div class="line">ifconfig-pool-persist ipp.txt</div><div class="line">push &quot;redirect-gateway def1 bypass-dhcp&quot;</div><div class="line">push &quot;dhcp-option DNS 114.114.114.114&quot;</div><div class="line">push &quot;dhcp-option DNS 8.8.8.8&quot;</div><div class="line">duplicate-cn #如果每个client使用相同的证书，必须开启此项</div><div class="line">keepalive 10 120</div><div class="line">tls-auth ta.key 0</div><div class="line">cipher AES-256-CBC</div><div class="line">comp-lzo</div><div class="line">max-clients 20</div><div class="line">user nobody</div><div class="line">group nobody</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">status openvpn-status.log</div><div class="line">log openvpn.log</div><div class="line">verb 3</div><div class="line">mute 20</div></pre></td></tr></table></figure></p>
 <p><strong>Step 4: 测试</strong><br><br>&emsp;&emsp;到目前为止，server基本配置完毕。临时启动server进行测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line">cd /etc/openvpn/server</div><div class="line">openvpn --config /etc/openvpn/server/server.conf</div></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;然后查看是否有tun0网卡，以及网卡信息与配置是否一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig</div></pre></td></tr></table></figure></p>
 <p><strong>Step 5: 通过VPN上网</strong><br><br>&emsp;&emsp;现在我们的openvpn server已经可以接受client连入了，但是client还不能上网。所以需要将openvpn子网的连接转发到可上网的网卡，如eth0.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/sysctl.d/99-sysctl.conf  #我使用的archlinux已经没有/etc/sysctl.conf了,已经改为了这种结构</div></pre></td></tr></table></figure></p>
@@ -156,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjb6b6rrl0005wfdhp1lsg92a" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/12/08/OpenVPN搭建/" data-id="cjji82h2e0001tjdh3x8s33jx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openvpn/">openvpn</a></li></ul>
@@ -206,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjb6b6rrf0004wfdhk9svbs0t" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/12/07/Linux-locale-缺失与安装/" data-id="cjji82h2j0004tjdhcl8xveg6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/locale/">locale</a></li></ul>
@@ -254,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cjb6b6rr70000wfdh6i4c60un" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/11/13/HMM学习笔记/" data-id="cjji82h2a0000tjdhnzj3c4za" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
@@ -297,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/18/proc-cpuinfo文本分析/" data-id="cjb6b6rrm0006wfdhep4qxe5o" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/09/18/proc-cpuinfo文本分析/" data-id="cjji82h2k0005tjdh8yn92j6y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li></ul>
@@ -343,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/15/OpenStack-虚拟机状态卡死之处理方法/" data-id="cjb6b6rra0001wfdh7fokv2ri" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/09/15/OpenStack-虚拟机状态卡死之处理方法/" data-id="cjji82h2n0006tjdhtwtek1jq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nova/">nova</a></li></ul>
@@ -362,7 +362,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Категории</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux操作系统小知识/">Linux操作系统小知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenStack实践笔记/">OpenStack实践笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/VPN搭建/">VPN搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell编程范例/">shell编程范例</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/模型学习笔记/">模型学习笔记</a></li></ul>
     </div>
@@ -372,7 +372,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Метки</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenStack/">OpenStack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpuinfo/">cpuinfo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/locale/">locale</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nova/">nova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvpn/">openvpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
@@ -382,7 +382,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Облако меток</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/OpenStack/" style="font-size: 10px;">OpenStack</a> <a href="/tags/cpuinfo/" style="font-size: 10px;">cpuinfo</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/locale/" style="font-size: 10px;">locale</a> <a href="/tags/nova/" style="font-size: 10px;">nova</a> <a href="/tags/openvpn/" style="font-size: 10px;">openvpn</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
     </div>
@@ -391,7 +391,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Архив</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
     </div>
@@ -401,7 +401,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Недавние записи</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -437,8 +437,8 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 张晋玮<br>
-      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
+      &copy; 2018 张晋玮<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
